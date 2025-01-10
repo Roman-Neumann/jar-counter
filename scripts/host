@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+
+previous_dir="$PWD"
+cd "$(dirname $0)/.."
+
+if [ -e .venv/ ]; then
+    python_=.venv/bin/python3
+else
+    python_=python3
+fi
+$python_ -m jar_counter $1
+
+cd "$previous_dir"
+

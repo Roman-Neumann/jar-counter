@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+
+bash "$(dirname $0)/host" --sync
+read -r -n1 -p "Press any key to continue..."
+
