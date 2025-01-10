@@ -1,8 +1,8 @@
 import argparse
 import configparser
 import dataclasses
-import os
 import json
+import os
 from pathlib import Path
 
 from .data import ArgData, ConfigData, GuildData, JarData, Jars
