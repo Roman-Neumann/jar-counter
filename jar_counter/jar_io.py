@@ -18,7 +18,7 @@ def read_args() -> ArgData:
         help=("sync commands and exit"),
     )
 
-    return ArgData(parser.parse_args().sync_and_exit)
+    return ArgData(parser.parse_args().sync)
 
 
 def read_config() -> ConfigData:
