@@ -140,6 +140,7 @@ def _get_command_signature_mismatch_message(
     return msg + "Call `/jar sync` to fix the issue."
 
 
+# Must be defined after function declarations.
 _messages = {
     CommandInvokeError: _get_command_invoke_error_message,
     NoPrivateMessage: _get_no_private_message_message,
