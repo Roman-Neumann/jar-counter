@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 import re
-from typing import Any, Callable
+from typing import Any, Callable, Optional
 
 import discord as dc
 
@@ -27,6 +27,7 @@ from .decorators import (
 from .errors import GuildNotSetupError, NeedsSyncError, get_error_message
 
 
+# ruff: noqa: UP007 <- type annotations on commands are evaluated at runtime
 # ruff: noqa: D417 <- docstring only documents the interface discord-side
 
 
@@ -212,9 +213,9 @@ def _setup_guild(
 @is_moderator(allow_setup=True)
 async def _setup(
     intr: dc.Interaction,
-    moderator: dc.Role | None = None,
-    responses: Visibility | None = None,
-    mentions: bool | None = None,
+    moderator: Optional[dc.Role] = None,
+    responses: Optional[Visibility] = None,
+    mentions: Optional[bool] = None,
 ) -> None:
     """Configure different options of the bot.
 
@@ -286,8 +287,8 @@ async def _create(
 async def _edit(
     intr: dc.Interaction,
     member: dc.Member,
-    currency: str | None = None,
-    suffix: bool | None = None,
+    currency: Optional[str] = None,
+    suffix: Optional[bool] = None,
 ) -> None:
     """Edit the currency and suffix of a jar.
 
@@ -347,7 +348,7 @@ async def _change_jar_counter(
 async def _add(
     intr: dc.Interaction,
     amount: dc.app_commands.Range[int, 1, None] = 1,
-    member: dc.Member | None = None,
+    member: Optional[dc.Member] = None,
 ) -> None:
     """Add some amount to a jar.
 
@@ -366,7 +367,7 @@ async def _add(
 async def _subtract(
     intr: dc.Interaction,
     amount: dc.app_commands.Range[int, 1, None] = 1,
-    member: dc.Member | None = None,
+    member: Optional[dc.Member] = None,
 ) -> None:
     """Remove some amount from a jar.
 
@@ -380,7 +381,10 @@ async def _subtract(
 
 @bot.command
 @has_jar()
-async def _show(intr: dc.Interaction, member: dc.Member | None = None) -> None:
+async def _show(
+    intr: dc.Interaction,
+    member: Optional[dc.Member] = None,
+) -> None:
     """Show the contents of a jar.
 
     Args:
