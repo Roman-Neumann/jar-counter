@@ -1,16 +1,20 @@
 from __future__ import annotations
 
 import dataclasses
+from typing import Generic, TypeVar
+
+
+T = TypeVar("T")
 
 
 @dataclasses.dataclass(repr=False, eq=False)
-class _Change[T]:
+class _Change(Generic[T]):
     name: str
     old: T
     new: T
 
 
-def document_change[T](
+def document_change(
     obj: object,
     attribute_name: str,
     value: T | None,
