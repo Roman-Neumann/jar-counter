@@ -9,7 +9,7 @@ from .errors import GuildNotSetupError
 
 @dataclasses.dataclass
 class ArgData:
-    sync_and_exit: bool
+    sync: bool
 
 
 @dataclasses.dataclass

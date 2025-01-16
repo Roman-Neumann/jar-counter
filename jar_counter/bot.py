@@ -57,11 +57,11 @@ class _JarBot(dc.Client):
         self.host_contact: str
 
     def prepare_run(self, args: ArgData, config: ConfigData) -> None:
-        will_be_synced = args.sync_and_exit
+        will_be_synced = args.sync
         if sync.needs_sync() and not will_be_synced:
             raise NeedsSyncError
 
-        self._sync_and_exit = args.sync_and_exit
+        self._sync_and_exit = args.sync
         self._token = config.token
         self.host_contact = config.host_contact
 
