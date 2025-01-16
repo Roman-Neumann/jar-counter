@@ -58,12 +58,9 @@ def get_error_message(exc: AppCommandError) -> str:
 def _get_command_invoke_error_message(
     exc: CommandInvokeError,
 ) -> str | None:
-    match exc.original:
-        case NoReuseMemberError():
-            return _get_no_reuse_member_error_message()
-
-        case _:
-            return None
+    if issubclass(type(exc), NoReuseMemberError):
+        return _get_no_reuse_member_error_message()
+    return None
 
 
 def _get_no_private_message_message(_: NoPrivateMessage) -> str:
@@ -83,38 +80,30 @@ def _get_command_on_cooldown_message(
     )
 
 
-def _get_check_failure_message(exc: CheckFailure) -> str | None:  # noqa: PLR0911
-    match exc:
-        case GuildNotSetupError():
-            return (
-                "The bot has not been setup properly. Use `/jar setup` and "
-                "ensure a moderator role is passed."
-            )
+def _get_check_failure_message(exc: CheckFailure) -> str | None:
+    messages = {
+        GuildNotSetupError: (
+            "The bot has not been setup properly. Use `/jar setup` and "
+            "ensure a moderator role is passed."
+        ),
+        NoSuchRoleError: (
+            f"A role with name `{exc}` is unknown. Maybe the "
+            "previous role has been removed. Use `/jar setup` to set a new "
+            "one."
+        ),
+        NoJarError: (
+            "The specified member has no jar. Use `/jar create` to create one."
+        ),
+        DuplicateJarError: "The specified member already has a jar.",
+        OwnJarAccessError: "This command may not be called for your own jar.",
+        NoReuseMemberError: _get_no_reuse_member_error_message(),
+    }
 
-        case NoSuchRoleError():
-            return (
-                f"A role with name `{exc}` is unknown. Maybe the "
-                "previous role has been removed. Use `/jar setup` to set a new "
-                "one."
-            )
+    for error_subtype, msg in messages.items():
+        if issubclass(type(exc), error_subtype):
+            return msg
 
-        case NoJarError():
-            return (
-                "The specified member has no jar. Use `/jar create` to create "
-                "one."
-            )
-
-        case DuplicateJarError():
-            return "The specified member already has a jar."
-
-        case OwnJarAccessError():
-            return "This command may not be called for your own jar."
-
-        case NoReuseMemberError():
-            return _get_no_reuse_member_error_message()
-
-        case _:
-            return None
+    return None
 
 
 def _get_no_reuse_member_error_message() -> str:
