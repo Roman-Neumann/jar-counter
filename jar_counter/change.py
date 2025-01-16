@@ -36,7 +36,7 @@ def combine_message(
     prefix: str | None = None,
 ) -> str:
     combined = [
-        f"Changed **{c.name.replace("_", " ")}** "
+        f"Changed **{c.name.replace('_', ' ')}** "
         f"from **{c.old}** "
         f"to **{c.new}**"
         for c in changes
