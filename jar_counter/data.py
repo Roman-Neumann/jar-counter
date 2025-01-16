@@ -18,9 +18,12 @@ class ConfigData:
     host_contact: str
 
 
-class Visibility(enum.StrEnum):
+class Visibility(str, enum.Enum):
     hidden = "hidden"
     visible = "visible"
+
+    def __str__(self) -> str:
+        return self.value
 
 
 @dataclasses.dataclass
